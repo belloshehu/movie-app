@@ -1,0 +1,12 @@
+@tailwind components;
+@tailwind base;
+@tailwind utilities;
+
+@layer components {
+    .fav-number {
+        @apply text-3xl p-1 rounded-full bg-slate-400 text-indigo-900 absolute -top-2 -right-3 w-auto h-auto group-hover:-top-7 transition-all duration-200 opacity-90;
+     }
+    .fav-icon {
+        @apply text-5xl text-white hover:text-slate-300 transition-all duration-200
+    }
+}
