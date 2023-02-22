@@ -8,8 +8,8 @@ export const getSingleMovie = createAsyncThunk(
     'movie/getSingleMovie',
     async(movieID, thunkAPI) =>{
         try{
-            const movie = await axios (`https://www.omdbapi.com/?i=${movieID}&apikey=a954465c`)
-            return movie
+            const movie = await axios(`https://www.omdbapi.com/?i=${movieID}&plot=full&apikey=a954465c`)
+            return movie.data
         }catch(error){
             console.log(error)
             thunkAPI.rejectWithValue('Something went wrong')
@@ -25,6 +25,21 @@ export const getMovies = createAsyncThunk(
         }
         try{
             const movies = await axios (`https://www.omdbapi.com/?s=${searchKey}&apikey=a954465c`)
+            // let mapped = movies.data.Search.map((movie) =>
+            //     {
+            //         const {Title, Year, Poster, imdbID, Type} = movie
+            //         return(
+            //             {
+            //                 imdbID, 
+            //                 Title, 
+            //                 Year, 
+            //                 Poster, 
+            //                 Genre: Type
+            //             }
+            //         )
+            //     }
+            // )
+
             thunkAPI.dispatch(setFilters(movies.data.Search))
             return movies.data.Search
         }catch(error){
@@ -40,17 +55,39 @@ const movieSlice = createSlice({
         movies: [],
         selectedMovie: null,
         errorMessage: '',
-        filters: {Year: {}, Type: {}},
+        filters: {Date: {}, Genre: {}},
+        filter: {Date: '', Genre: ''},
+        favourites: [],
+        filteredMovies: []
     },
     reducers: {
         setFilters: (state, {payload}) => {
             // create set of filters from movies object
             const filters = {
-                Type:  Array.from(new Set(payload.map(movie => movie.Type))),
-                Year: Array.from(new Set(payload.map(movie => movie.Year)))
+                Genre:  Array.from(new Set(payload.map(movie => movie.Type))),
+                Date: Array.from(new Set(payload.map(movie => movie.Year)))
             }
             state.filters = filters
-        }
+        },
+        filterByGenreAndDate: (state, {payload}) => {
+            const {Genre:genre, Date:date} = payload
+            console.log(genre, date)
+            if(genre === '' && date === '') return
+           else if(genre === ''){
+                state.filteredMovies = state.movies.filter( movie => 
+                    movie.Year === date
+                )
+           }else if(date === ''){
+                state.filteredMovies = state.movies.filter( movie => 
+                    movie.Type === genre
+                )
+           }else{
+                state.filteredMovies = state.movies.filter( movie => 
+                    movie.Type === genre && movie.Year === date
+                )
+           }
+           console.log(state.filteredMovies)
+        },
     },
     extraReducers: {
         [getMovies.pending]:  (state, action) => {
@@ -59,6 +96,7 @@ const movieSlice = createSlice({
         [getMovies.fulfilled]: (state, action) => {
             state.isLoading = false
             state.movies = action.payload
+            state.filteredMovies = action.payload
         },
         [getMovies.rejected]: (state, action) => {
             state.isLoading = false
@@ -72,10 +110,10 @@ const movieSlice = createSlice({
             state.selectedMovie = action.payload
         },
         [getSingleMovie.rejected]: (state, action) => {
-            state.isLoading = true
+            state.isLoading = false
         }
     }
 
 })
-export const {setFilters} = movieSlice.actions
+export const {setFilters, filterByGenreAndDate} = movieSlice.actions
 export default movieSlice.reducer

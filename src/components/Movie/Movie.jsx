@@ -20,8 +20,10 @@ const Movie = ({Title, Year, Poster, Type, imdbID}) => {
               >
               <h4 className='font-bold '>{Title}</h4>
             </Link>
-            <small>{Year}</small>
-            <AddToFavourites />
+            <div className='flex group-hover:flex-col gap-2 justify-between items-center'>
+              <small>{Year}</small>
+              <AddToFavourites />
+            </div>
         </div>
     </article>
   )
