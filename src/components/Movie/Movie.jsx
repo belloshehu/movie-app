@@ -1,8 +1,9 @@
 import React from 'react'
 import AddToFavourites from '../AddToFavourites/AddToFavourites'
 import './Movie.css'
+import { Link } from 'react-router-dom'
 
-const Movie = ({Title, Year, Poster, Type}) => {
+const Movie = ({Title, Year, Poster, Type, imdbID}) => {
 
   return (
     <article 
@@ -14,7 +15,11 @@ const Movie = ({Title, Year, Poster, Type}) => {
         />
         <div 
             className='movie-info movie-info-hover'>
-            <h4 className='font-bold '>{Title}</h4>
+            <Link to={`/movie/${imdbID}`} 
+              className='underline'
+              >
+              <h4 className='font-bold '>{Title}</h4>
+            </Link>
             <small>{Year}</small>
             <AddToFavourites />
         </div>

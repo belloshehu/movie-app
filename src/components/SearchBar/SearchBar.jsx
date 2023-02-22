@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { getMovies } from '../../features/movie/movieSlice'
 
 const SearchBar = () => {
-  const [searchKey, setSearchKey] = useState('love')
+  const [searchKey, setSearchKey] = useState('')
   const dispatch = useDispatch()
 
   useEffect(() => {
