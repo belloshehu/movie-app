@@ -7,15 +7,15 @@ const HeroSection = () => {
         className='flex flex-col lg:flex-row justify-center text-slate-200' 
     >
       <div className='flex flex-col gap-5'>
-        <div className='flex gap-2 items-center'>
+        <div className='flex gap-2 items-center justify-center'>
           <FaCamera
-            className='text-7xl text-white'
+            className='text-4xl lg:text-7xl text-white'
           />
           <h1
             className='text-2xl lg:text-7xl font-bold text-white'
           >Movie Search</h1>
         </div>
-        <p className='text-center text-xl'>
+        <p className='text-center lg:text-xl px-20'>
             Search for your favourite movies with ease and save them for later.
         </p>   
       </div>

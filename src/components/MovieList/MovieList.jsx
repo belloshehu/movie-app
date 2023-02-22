@@ -7,11 +7,6 @@ import { getMovies } from '../../features/movie/movieSlice'
 
 const MovieList = () => {
     const {movies, isLoading} = useSelector(store => store.movie)
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(getMovies())
-    }, [])
     
     if(isLoading){
         return (
@@ -22,7 +17,7 @@ const MovieList = () => {
     }
     return (
         <div 
-            className='grid grid-cols-1 lg:grid-cols-3 gap-3 w-full'>
+            className='grid grid-cols-1 lg:grid-cols-3 gap-3 w-full px-2'>
             {
                 movies?.map(movie => <Movie key={movie.imdbID} {...movie} />)
             }

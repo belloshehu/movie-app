@@ -1,55 +1,36 @@
-import React, {useEffect, useState} from 'react'
-import { useSelector } from 'react-redux'
-import { movies } from '../../data/data'
+import React from 'react'
+import { useState } from 'react'
 import FilterItem from '../FilterItem/FilterItem'
+import { useSelector } from 'react-redux'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 
-const Filter = () => {
-    
-    const {movies, filters, isLoading, errorMessage} = useSelector(store => store.movie)
-    // const [filters, setFilters] = useState({genre: [], date: []})
-
-    useEffect(() => {
-        console.log(filters.Year)
-    }, [movies])
-    if(isLoading){
-        return (
-            <div>
-                <h1>Loading filters</h1>
-            </div>
-        )
-    }
+const Filter = ({filterKey: key}) => {
+    const {filters} = useSelector(store => store.movie)
+    const [show, setShow] = useState(true)
     return (
-        <div className='flex flex-col gap-2 p-2 lg:w-1/4'>
-            {
-                filters? (
-                <>
-                    <h3 
-                        className='font-bold text-white'
-                        >Filter by
-                    </h3>
-                    <div 
-                        className='grid grid-cols-2 gap-2 text-white'
+        <div className='relative'>
+            <h3 
+                className='flex justify-between bg-slate-200 text-indigo-900 p-2 rounded-t-md'
+                >
+                    {key.slice(0, 1).toUpperCase()}{key.slice(1,)} 
+                    <span 
+                        className='text-xl font-bold px-2 text-indigo-900 hover:bg-slate-400 rounded-md'
+                        onClick={()=> setShow(!show)}
                         >
                         {
-                            Object.keys(filters)?.map((key, index) =>
-                                <div key={index}>
-                                    <h3 
-                                        className='bg-slate-200 text-indigo-900 p-2 rounded-t-md'
-                                        >
-                                            {key.slice(0, 1).toUpperCase()}{key.slice(1,)}
-                                    </h3>
-                                    <ul>
-                                        {
-                                            filters[key].map( (item, index)=> <FilterItem key={index} text={item}/>)
-                                        }
-                                    </ul>
-                                </div>
-                            )
+                            show? (
+                                <FaChevronUp/>
+                            ) : <FaChevronDown/>
                         }
-                    </div>
-                </>
-                ):null
-            }
+                    </span>
+            </h3>
+            {show? (
+                <ul className='absolute z-10 w-full'>
+                    {
+                        filters[key].map( (item, index)=> <FilterItem key={index} text={item}/>)
+                    }
+                </ul>
+            ): null}
         </div>
     )
 }
