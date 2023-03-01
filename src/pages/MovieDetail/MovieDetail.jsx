@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation, } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { getSingleMovie } from '../../features/movie/movieSlice'
 import AddToFavourites from '../../components/AddToFavourites/AddToFavourites'
@@ -10,16 +10,19 @@ import './MovieDetail.css'
 export const MovieDetail = () => {
     const dispatch = useDispatch()
     const {selectedMovie, isLoading} = useSelector(store => store.movie)
-    const {id} = useParams()
+    
+    const {pathname} = useLocation()
+    let id = pathname.split('/')[ pathname.split('/').length - 1]
+    id = id.trim()
 
+    
     useEffect(() => {
-        console.log(id)
         dispatch(getSingleMovie(id))
-    }, [])
+    }, [id])
 
     if(isLoading){
         return (
-            <h1> Loading....</h1>
+            <h1 className='text-white mx-auto mt-20 font-bold'> Loading....</h1>
         )
     }
     return (
