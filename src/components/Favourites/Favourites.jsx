@@ -8,7 +8,7 @@ const Favourites = () => {
   return (
     <div className='relative group'>
         <FaHeart className='fav-icon'/>
-        <span className='fav-number'>{favourites}</span>
+        <span className='fav-number'>{favourites.length}</span>
     </div>
   )
 }

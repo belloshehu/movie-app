@@ -1,0 +1,24 @@
+@tailwind utilities;
+@tailwind components; 
+@tailwind base;
+
+@layer components{
+    .form-group {
+        @apply flex flex-col gap-2
+    }
+    .form-group input {
+        @apply p-2 px-4 rounded-md outline-none border-2;
+    }
+    .login {
+        @apply grid grid-cols-1 lg:grid-cols-2 gap-4 bg-white shadow-sm p-2 lg:p-5 w-full lg:w-2/3 mx-auto mt-10;
+    }
+    .login article {
+        @apply p-2 lg:p-5
+    }
+    .social-auth{
+        @apply bg-slate-200;
+    }
+    .social-auth-link{
+        @apply flex gap-2 rounded-md text-white p-2 items-center w-2/3 mx-auto;
+    }
+}
