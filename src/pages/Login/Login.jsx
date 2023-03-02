@@ -4,6 +4,7 @@ import './Login.css'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { useState } from 'react'
+import LoginForm from '../../components/LoginForm/LoginForm'
 
 const Login = () => {
     const [user, setUser] = useState(null)
@@ -38,22 +39,7 @@ const Login = () => {
             </div>
         </article>
         <article>
-            <form>
-                <div className='form-group'>
-                    <label>Email</label>
-                    <input type='text'/>
-                </div>
-                <div className='form-group'>
-                    <label>Password</label>
-                    <input type='password'/>
-                </div>
-                <div className='bg-indigo-900 p-2 text-white text-center my-2 rounded-md'>
-                    <input 
-                        type='submit' 
-                        value='Submit'
-                    />
-                </div>
-            </form>
+           <LoginForm />
         </article>
     </div>
   )
