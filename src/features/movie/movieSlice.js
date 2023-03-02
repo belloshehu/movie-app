@@ -24,7 +24,7 @@ export const getMovies = createAsyncThunk(
             searchKey = getRandomText()
         }
         try{
-            const movies = await axios (`https://www.omdbapi.com/?s=${searchKey}&apikey=a954465c`)
+            const movies = await axios.get(`https://www.omdbapi.com/?s=${searchKey}&apikey=a954465c`)
             // let mapped = movies.data.Search.map((movie) =>
             //     {
             //         const {Title, Year, Poster, imdbID, Type} = movie

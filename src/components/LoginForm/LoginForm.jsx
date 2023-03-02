@@ -1,80 +1,76 @@
 import axios from 'axios'
 import React, {useState} from 'react'
+import {useFormik} from 'formik'
+import * as Yup from 'yup'
+import { useDispatch, useSelector } from 'react-redux'
+import { localLogin } from '../../features/auth/authSlice'
+import FormError from '../FormError/FormError'
+import './LoginForm.css'
+import FormInputError from '../FormInputError/FormInputError'
+
+
 
 const LoginForm = () => {
-    const [values, setValues] = useState({
-        email: '',
-        password: ''
+    const dispatch = useDispatch()
+    const {userLoading, message, user} = useSelector( store => store.auth) 
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: ''
+        },
+        validationSchema: Yup.object({
+            email: Yup.string().email('Invalid email address').required('Email is required'),
+            password: Yup.string().min(8, "Must be at least 8 characters").required("Password required")
+            .matches(/[a-z]+/, "Must contain atleast one lowercase character")
+            // .matches(/[A-Z]+/, "One uppercase character")
+            // .matches(/[@$!%*#?&]+/, "One special character")
+            .matches(/\d+/, "Must contain atleast one number")
+        }),
+        onSubmit: async(values) => {
+            dispatch(localLogin(values))
+        }
     })
 
-    const [inputError, setInputError] = useState({
-        email: false,
-        password: false
-    })
-    const handleChange = (e)=>{
-        console.log(values)
-        setValues((prev) => { return {...prev, [e.target.name]: e.target.value}})
-    }
-
-    const isValidForm = () =>{
-        return values.email && values.password.length >= 8
-    }
-    const submitForm = async()=>{
-        try {
-            const res = await axios.post('http://localhost:5000/auth/login', {
-                email: values.email,
-                password: values.password
-            })
-            console.log(res.data)
-        } catch (error) {
-            console.log(error)
-        }
-    }
-    const handleSubmit = (e)=>{
-        e.preventDefault(true)
-        if(isValidForm()){
-            submitForm()
-        }else{
-            console.log('invalid form')
-        }
-    }
-
-  return (
-    <div>
-         <form onSubmit={handleSubmit}>
-            <div className='form-group'>
-                <label htmlFor='email'>Email</label>
-                <input 
-                    name='email'
-                    type='email' 
-                    id='email'
-                    value={values.email}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className='form-group'>
-                <label htmlFor='password'>Password</label>
-                <input 
-                    name='password'
-                    type='password'
-                    id='password'
-                    minLength={8}
-                    value={values.password}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className='bg-indigo-900 p-2 text-white text-center my-2 rounded-md'>
-                <input 
-                    type='submit' 
-                    value={'submit'}    
-                /> 
-            </div>
-    
-        </form>
-    </div>
-  )
+    return (
+        <div>
+            <form onSubmit={formik.handleSubmit}>
+                <FormError message={message}/>
+                <div className='form-group'>
+                    <label htmlFor='email'>
+                        Email<sup className='text-red-500 font-bold'>*</sup>
+                    </label>
+                    <input 
+                        type='email' 
+                        id='email'
+                        {...formik.getFieldProps('email')}
+                    />
+                    <FormInputError 
+                        isTouched={formik.touched.email}
+                        errorMessage={formik.errors.email}
+                    />
+                </div>
+                <div className='form-group'>
+                    <label htmlFor='password'>
+                        Password<sup className='text-red-500 font-bold'>*</sup>
+                    </label>
+                    <input 
+                        type='password'
+                        id='password'
+                        {...formik.getFieldProps('password')}
+                    />
+                    <FormInputError 
+                        isTouched={formik.touched.password}
+                        errorMessage={formik.errors.password}
+                    />
+                </div>
+                <button 
+                    className='p-2 text-white text-center my-2 rounded-md'
+                    type='submit'
+                    >Submit
+                </button> 
+            </form>
+        </div>
+    )
 }
 
 export default LoginForm
