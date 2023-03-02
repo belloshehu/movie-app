@@ -16,7 +16,7 @@ const SearchBar = () => {
     <form 
       className='w-full flex justify-center mt-1 bg-indigo-900 p-4'
       >
-      <div className='relative w-full lg:w-1/3'>
+      <div className='relative w-full lg:w-1/3 mx-auto'>
         <input 
             type='search' 
             name='search'

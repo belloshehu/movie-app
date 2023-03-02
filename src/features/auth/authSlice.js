@@ -19,6 +19,23 @@ export const localLogin = createAsyncThunk(
         }
     }
 )
+
+export const localSignup = createAsyncThunk(
+    'auth/localSignup',
+    async(values, thunkAPI) => {
+        try {
+            const res = await axios.post('http://localhost:5000/auth/signup', {
+                email: values.email,
+                password: values.password,
+                username: values.username
+            })
+            return res.data
+        } catch (error) {
+            thunkAPI.rejectWithValue('Something went wrong')
+            return error.response.data.msg   
+        }
+    }
+)
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -32,6 +49,9 @@ const authSlice = createSlice({
         }, 
         clearUser: (state) => {
             state.user = null
+        },
+        clearMessage: (state)=>{
+            state.message = ''
         }
     }, 
 
@@ -52,9 +72,26 @@ const authSlice = createSlice({
         [localLogin.rejected]: (state, {payload}) => {
             state.userLoading = false
             state.message = 'Login failed'
+        },
+        [localSignup.pending]: (state) =>{
+            state.userLoading = true
+        },
+        [localSignup.fulfilled]: (state, action) =>{
+            state.userLoading = false
+            if(action.payload.user){
+                state.userLoading = false
+                state.user = action.payload.user
+                state.message = action.payload.message
+            }else{
+                state.message = action.payload
+            }
+        },
+        [localSignup.rejected]: (state) =>{
+            state.userLoading = false
+            state.message = 'Login failed'
         }
     }
 })
 
-export const {setUser, clearUser} = authSlice.actions
+export const {setUser, clearUser, clearMessage} = authSlice.actions
 export default authSlice.reducer

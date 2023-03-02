@@ -23,19 +23,23 @@ const Navbar = () => {
         >
             <span className='bg-white text-indigo-900 p-2 shadow-lg shadow-black rounded-md'>M</span>Moviex
         </Link>
-        {
-          user? (
-            <div className='flex gap-1 items-center'>
-                <p>Hello, {user.username}</p>
-                <Link 
-                  className='bg-slate-400 p-2 rounded-md' 
-                  onClick={logout}>Logout</Link>
-            </div>
-          ):(
-            <Link to='/login'>Login</Link>
-          )
-        }
-        <Favourites />
+        <div 
+          className='flex gap-2 items-center'
+        >
+          {
+            user? (
+              <div className='flex gap-1 items-center'>
+                  <p>Hello, {user.username}</p>
+                  <Link 
+                    className='bg-slate-400 p-2 rounded-md' 
+                    onClick={logout}>Logout</Link>
+              </div>
+            ):(
+              <Link to='/login' className='bg-indigo-900 p-2 rounded-md'>Login</Link>
+            )
+          }
+          <Favourites />
+        </div>
     </header>
   )
 }

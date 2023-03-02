@@ -2,18 +2,20 @@ import logo from './logo.svg';
 import './App.css';
 import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar/Navbar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getMovies } from './features/movie/movieSlice';
-import {Routes, Route} from 'react-router-dom'
+import {Routes, Route, Navigate} from 'react-router-dom'
 import { Home } from './pages/Home/Home';
 import { MovieDetail } from './pages/MovieDetail/MovieDetail';
 import Login from './pages/Login/Login';
+import Signup from './pages/Signup/Signup';
 import { setUser, clearUser } from './features/auth/authSlice';
 import axios from 'axios';
 
 
 function App() {
   const [isLoading, setIsLoading] = useState()
+  const { user } = useSelector(store => store.auth)
   const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getMovies())
@@ -43,29 +45,13 @@ function App() {
       getUser()
     }, [])
 
-    // useEffect(() => {
-    //   const getUser = async()=>{
-    //       try {
-    //           const res = await axios.get('http://localhost:5000/auth/login/success')
-    //           dispatch(setUser(res.data))
-    //           console.log('result:', res)
-    //           setIsLoading(false)
-    //       } catch (error) {
-    //           console.log(error)
-    //           dispatch(clearUser())
-    //           setIsLoading(false)
-    //       }
-    //   }
-    //   getUser()
-    // }, [])
-
   return (
     <div className='flex flex-col gap-5 relative bg-indigo-900'>
-      <Navbar />
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/movie/:id' element={<MovieDetail />}/>
-        <Route path='/login' element={<Login />}/>
+        <Route path='/login' element={ user? <Navigate to='/' />: <Login /> }/>
+        <Route path='/signup' element={ user? <Navigate to='/' />: <Signup /> }/>
       </Routes>
     </div>
   );
