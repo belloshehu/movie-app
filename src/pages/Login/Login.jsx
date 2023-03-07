@@ -9,7 +9,10 @@ import Brand from '../../components/Brand/Brand'
 
 const Login = () => {
     const [user, setUser] = useState(null)
-        const googleLogin = async() =>{
+    const facebookLogin = async() => {
+        window.open('http://localhost:5000/auth/facebook', '_self')
+    }
+    const googleLogin = async() => {
         console.log('logging with google')
         window.open('http://localhost:5000/auth/google', '_self')
     }
@@ -37,7 +40,7 @@ const Login = () => {
                 </button>
                 <button 
                     className='social-auth-link bg-blue-500'
-                    onClick={googleLogin}
+                    onClick={facebookLogin}
                 >
                     <FaFacebook />
                     <p>Facebook</p>

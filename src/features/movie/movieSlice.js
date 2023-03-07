@@ -25,21 +25,6 @@ export const getMovies = createAsyncThunk(
         }
         try{
             const movies = await axios.get(`https://www.omdbapi.com/?s=${searchKey}&apikey=a954465c`)
-            // let mapped = movies.data.Search.map((movie) =>
-            //     {
-            //         const {Title, Year, Poster, imdbID, Type} = movie
-            //         return(
-            //             {
-            //                 imdbID, 
-            //                 Title, 
-            //                 Year, 
-            //                 Poster, 
-            //                 Genre: Type
-            //             }
-            //         )
-            //     }
-            // )
-
             thunkAPI.dispatch(setFilters(movies.data.Search))
             return movies.data.Search
         }catch(error){
