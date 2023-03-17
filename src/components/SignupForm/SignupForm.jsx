@@ -29,11 +29,8 @@ const SignupForm = () => {
             // .matches(/[A-Z]+/, "One uppercase character")
             // .matches(/[@$!%*#?&]+/, "One special character")
             .matches(/\d+/, "Must contain atleast one number"),
-            passwordRepeat: Yup.string().min(8, "Must be at least 8 characters").required("Password required")
-            .matches(/[a-z]+/, "Must contain atleast one lowercase character")
-            // .matches(/[A-Z]+/, "One uppercase character")
-            // .matches(/[@$!%*#?&]+/, "One special character")
-            .matches(/\d+/, "Must contain atleast one number")
+            passwordRepeat: Yup.string().required('Confirm password required').oneOf([Yup.ref('password'), null], 'Passwords must match')
+            
         }),
         onSubmit: async(values) => {
             dispatch(clearMessage())
@@ -95,7 +92,7 @@ const SignupForm = () => {
                 </div>
                 <div className='form-group'>
                     <label htmlFor='passwordRepeat'>
-                        Password repeat<sup className='text-red-500 font-bold'>*</sup>
+                        Password confirm<sup className='text-red-500 font-bold'>*</sup>
                     </label>
                     <input 
                         type='password'

@@ -1,15 +1,15 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import Filter from '../../components/FilterContainer/FilterContainer'
 import MovieList from '../../components/MovieList/MovieList'
 import HeroSection from '../../components/HeroSection/HeroSection'
-import SearchBar from '../../components/SearchBar/SearchBar'
 import Navbar from '../../components/Navbar/Navbar'
-import { useDispatch } from 'react-redux'
-import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+
 
 export const Home = () => {
     const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
+    const {movies} = useSelector(store => store.movie)
 
     if(isLoading){
         return(
@@ -21,15 +21,21 @@ export const Home = () => {
         )
     }
     return (
-        <div className='flex flex-col'>
+        <div className='flex flex-col w-full'>
             <Navbar />
             <HeroSection />
-            <SearchBar />
-            <section className='flex flex-col lg:flex-row gap-2 w-full relative p-2 lg:p-20 lg:py-10'>
-                <Filter />
-                <MovieList 
-                />
-            </section>
+            {
+                movies? (
+                    <section className='flex flex-col lg:flex-row gap-2 w-full p-2 lg:p-20 lg:py-10 relative'>
+                    <Filter />
+                    <div className='w-full'>
+                        <h2 className='text-3xl text-white pl-2 mb-10'>Results ({movies?.length})</h2>
+                        <MovieList 
+                        />
+                    </div>
+                </section>
+                ): null
+            }
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { baseUrl } from "../../utils/baseUrl";
 
 
 export const localLogin = createAsyncThunk(
@@ -19,7 +20,21 @@ export const localLogin = createAsyncThunk(
         }
     }
 )
-
+export const userLogout = createAsyncThunk(
+    'auth/logout',
+    async (arg, thunkAPI) =>{
+        try {
+            const res = await axios.get(`${baseUrl()}/auth/logout`, {
+                headers: {
+                    'Authorization': `Bearer ${JSON.parse(localStorage.getItem('token'))}`
+                }
+            })
+            return res.data
+        } catch (error) {
+            thunkAPI.rejectWithValue('logout failed')
+        }
+    }
+)
 export const localSignup = createAsyncThunk(
     'auth/localSignup',
     async(values, thunkAPI) => {
@@ -39,7 +54,7 @@ export const localSignup = createAsyncThunk(
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        user: null, 
+        user: localStorage.getItem('user')? JSON.parse(localStorage.getItem('user')) : null, 
         userLoading: true, 
         message: ''
     },
@@ -55,41 +70,58 @@ const authSlice = createSlice({
         }
     }, 
 
-    extraReducers: {
-        [localLogin.pending]: (state) =>{
-            state.userLoading = true
-            state.message = 'Please wait...'
-        }, 
-        [localLogin.fulfilled]: (state, action) => {
-            if(action.payload.user){
+    extraReducers: (builder) =>{
+        builder
+            .addCase(localLogin.pending,  (state) =>{
+                state.userLoading = true
+                state.message = 'Please wait...'
+            })
+            .addCase(localLogin.fulfilled,(state, action) => {
+                if(action.payload.user){
+                    state.userLoading = false
+                    state.user = action.payload.user
+                    state.message = action.payload.message
+                    localStorage.setItem('user', JSON.stringify(action.payload.user))
+                    localStorage.setItem('token', JSON.stringify(action.payload.token))
+                }else{
+                    state.message = action.payload
+                }
+            })
+            .addCase(localLogin.rejected, (state, {payload}) => {
                 state.userLoading = false
-                state.user = action.payload.user
-                state.message = action.payload.message
-            }else{
-                state.message = action.payload
-            }
-        },
-        [localLogin.rejected]: (state, {payload}) => {
-            state.userLoading = false
-            state.message = 'Login failed'
-        },
-        [localSignup.pending]: (state) =>{
-            state.userLoading = true
-        },
-        [localSignup.fulfilled]: (state, action) =>{
-            state.userLoading = false
-            if(action.payload.user){
+                state.message = 'Login failed'
+            })
+            .addCase(localSignup.pending, (state) =>{
+                state.userLoading = true
+            })
+            
+            // local signup
+            .addCase(localSignup.fulfilled, (state, action) =>{
                 state.userLoading = false
-                state.user = action.payload.user
-                state.message = action.payload.message
-            }else{
+                if(action.payload.user){
+                    state.userLoading = false
+                    state.user = action.payload.user
+                    state.message = action.payload.message
+                }else{
+                    state.message = action.payload
+                }
+            })
+            .addCase(localSignup.rejected, (state) =>{
+                state.userLoading = false
+                state.message = 'Login failed'
+            })
+
+            // logout 
+
+            .addCase(userLogout.pending, (state) =>{
+                state.userLoading = true
+            })
+            .addCase(userLogout.fulfilled, (state) =>{
+                state.userLoading = false
+            })
+            .addCase(userLogout.rejected, (state, action) => {
                 state.message = action.payload
-            }
-        },
-        [localSignup.rejected]: (state) =>{
-            state.userLoading = false
-            state.message = 'Login failed'
-        }
+            })
     }
 })
 

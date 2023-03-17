@@ -40,7 +40,7 @@ const movieSlice = createSlice({
         movies: [],
         selectedMovie: null,
         errorMessage: '',
-        filters: {Date: {}, Genre: {}},
+        filters: {Date: [], Genre: []},
         filter: {Date: '', Genre: ''},
         favourites: [],
         filteredMovies: []
@@ -74,31 +74,31 @@ const movieSlice = createSlice({
            console.log(state.filteredMovies)
         },
     },
-    extraReducers: {
-        [getMovies.pending]:  (state, action) => {
-            state.isLoading = true
-        },
-        [getMovies.fulfilled]: (state, action) => {
-            state.isLoading = false
-            state.movies = action.payload
-            state.filteredMovies = action.payload
-        },
-        [getMovies.rejected]: (state, action) => {
-            state.isLoading = false
-            state.errorMessage = action.payload
-        },
-        [getSingleMovie.pending]: (state, action) => {
-            state.isLoading = true
-        }, 
-        [getSingleMovie.fulfilled]: (state, action) =>{
-            state.isLoading = false
-            state.selectedMovie = action.payload
-        },
-        [getSingleMovie.rejected]: (state, action) => {
-            state.isLoading = false
-        }
+    extraReducers: (builder) => {
+        builder
+            .addCase(getMovies.pending,  (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(getMovies.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.movies = action.payload
+                state.filteredMovies = action.payload
+            })
+            .addCase(getMovies.rejected, (state, action) => {
+                state.isLoading = false
+                state.errorMessage = action.payload
+            })
+            .addCase(getSingleMovie.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(getSingleMovie.fulfilled, (state, action) =>{
+                state.isLoading = false
+                state.selectedMovie = action.payload
+            })
+            .addCase(getSingleMovie.rejected, (state, action) => {
+                state.isLoading = false
+            })
     }
-
 })
 export const {setFilters, filterByGenreAndDate} = movieSlice.actions
 export default movieSlice.reducer

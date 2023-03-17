@@ -14,19 +14,20 @@ const SearchBar = () => {
 
   return (
     <form 
-      className='w-full flex justify-center mt-1 bg-indigo-900 p-4'
+      className='w-full flex justify-center mt-1 p-4'
+      onSubmit={(e)=>{e.preventDefault(true)}}
       >
-      <div className='relative w-full lg:w-1/3 mx-auto'>
+      <div className='relative w-full lg:w-1/3 mx-auto animate-bounce hover:animate-none'>
         <input 
             type='search' 
             name='search'
             value={searchKey}
             onChange={(e)=>setSearchKey(e.target.value)}
             placeholder='Enter movie name...'
-            className='p-2 px-4 rounded-full w-full border-2 outline-none shadow-md shadow-white'
+            className='p-4 px-4 text-indigo-900 rounded-md w-full border-2 outline-none shadow-md'
         />
         <FaSearch 
-          className='absolute top-3 right-5 text-indigo-900'
+          className='absolute text-3xl top-4 right-5 text-indigo-900'
         />
       </div>  
     </form>

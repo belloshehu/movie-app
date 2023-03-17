@@ -11,11 +11,13 @@ import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import { setUser, clearUser } from './features/auth/authSlice';
 import axios from 'axios';
+import Sidebar from './components/Sidebar/Sidebar';
 
 
 function App() {
   const [isLoading, setIsLoading] = useState()
   const { user } = useSelector(store => store.auth)
+  const {isOpen} = useSelector( store => store.modal)
   const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getMovies())
@@ -42,7 +44,7 @@ function App() {
               dispatch(clearUser())
           })
       }
-      getUser()
+      // getUser()
     }, [])
 
   return (
@@ -53,6 +55,7 @@ function App() {
         <Route path='/login' element={ user? <Navigate to='/' />: <Login /> }/>
         <Route path='/signup' element={ user? <Navigate to='/' />: <Signup /> }/>
       </Routes>
+      {isOpen && <Sidebar />}
     </div>
   );
 }
