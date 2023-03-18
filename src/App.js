@@ -12,6 +12,7 @@ import Signup from './pages/Signup/Signup';
 import { setUser, clearUser } from './features/auth/authSlice';
 import axios from 'axios';
 import Sidebar from './components/Sidebar/Sidebar';
+import Favorites from './pages/Favorites/Favorites';
 
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/movie/:id' element={<MovieDetail />}/>
+        <Route path='/favorites' element={!user? <Navigate to='/login' />: <Favorites />} />
         <Route path='/login' element={ user? <Navigate to='/' />: <Login /> }/>
         <Route path='/signup' element={ user? <Navigate to='/' />: <Signup /> }/>
       </Routes>

@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Filter from '../../components/FilterContainer/FilterContainer'
 import MovieList from '../../components/MovieList/MovieList'
 import HeroSection from '../../components/HeroSection/HeroSection'
 import Navbar from '../../components/Navbar/Navbar'
 import { useDispatch, useSelector } from 'react-redux'
+import Favorites from '../Favorites/Favorites'
+import { getAllFavorites } from '../../features/movie/movieSlice'
 
 
 export const Home = () => {
@@ -11,6 +13,10 @@ export const Home = () => {
     const dispatch = useDispatch()
     const {movies} = useSelector(store => store.movie)
 
+    useEffect(() => {
+        dispatch(getAllFavorites())
+    }, [Favorites])
+    
     if(isLoading){
         return(
             <section 

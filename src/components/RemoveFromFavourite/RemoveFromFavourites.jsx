@@ -1,20 +1,21 @@
 import React, {useState} from 'react'
-import {FaHeart, FaSpinner} from 'react-icons/fa'
+import { FaHeartBroken, FaSpinner, FaTrash } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToFavorites } from '../../features/movie/movieSlice'
+import { removeFromFavorites } from '../../features/movie/movieSlice'
 
-const AddToFavourites = (props) => {
+const RemoveFromFavourites = ({id}) => {
 
   const dispatch = useDispatch()
-  const [isAdding, setIsAdding] = useState(false)
+  const [isRemoving, setIsRemoving] = useState(false)
 
   const handleClick = async () =>{
-      setIsAdding(true)
+    setIsRemoving(true)
       try {
-        await dispatch(addToFavorites(props.movieProps)).unwrap()
-        setIsAdding(true)
+        await dispatch(removeFromFavorites(id)).unwrap()
+        setIsRemoving(false)
       } catch (error) {
-        setIsAdding(false)
+        setIsRemoving(false)
+        console.log(error)
       }
   }
 
@@ -24,19 +25,19 @@ const AddToFavourites = (props) => {
         onClick={handleClick}
         >
         {
-          isAdding? (
+          isRemoving? (
               <>
                  <FaSpinner 
                     className='text-xl animate-spin'
                   />
-                   <p className='opacity-0 group-hover:opacity-100 text-white'>Adding to Favourites</p>
+                   <p className='opacity-0 group-hover:opacity-100 text-white'>Removing from favourites</p>
               </>
             ):(
               <>
-                <FaHeart 
+                <FaTrash 
                     className='text-white shadow-sm group-hover:text-3xl'
                 />
-                <p className='opacity-0 group-hover:opacity-100 text-white'>Add to Favourites</p>
+                <p className='opacity-0 group-hover:opacity-100 text-white'>Remove from favourites</p>
               </>
           )
         }
@@ -45,4 +46,4 @@ const AddToFavourites = (props) => {
   )
 }
 
-export default AddToFavourites
+export default RemoveFromFavourites

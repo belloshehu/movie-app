@@ -25,22 +25,22 @@ const Navbar = () => {
   }
 
   return (
-    <header className='header text-white flex justify-between items-center p-2 bg-indigo-500 lg:px-20'>
+    <header className='header fixed w-full top-0 left-0 z-50 text-white flex justify-between items-center p-2 bg-indigo-500 lg:px-20'>
         <FaBars 
           className='text-2xl text-white visible lg:hidden' 
           onClick={()=> dispatch(openModal())} />
         <Link 
-          className='text-center text-3xl font-bold'
+          className='text-center text-3xl font-medium'
           to='/'
         >
-            <span className='bg-white text-indigo-900 p-2 shadow-lg shadow-black rounded-md'>M</span>Moviex
+            <span className='bg-white text-indigo-900 p-2 shadow-lg shadow-black rounded-md px-4 font-bold'>F</span>Favoritemovis
         </Link>
         <div 
-          className='lg:flex gap-2 items-center hidden lg:visible relative'
+          className='lg:flex gap-2 items-center relative'
         >
           {
             user? (
-              <div className='flex gap-1 items-center'>
+              <div className='lg:flex gap-1 items-center  hidden lg:visible'>
                   <FaUser className='text-4xl shadow-xl'/>
                   <p>{user.username}</p>
                   {
@@ -64,7 +64,7 @@ const Navbar = () => {
                   }
               </div>
             ):(
-              <Link to='/login' className='bg-indigo-900 p-2 rounded-md'>Login</Link>
+              <Link to='/login' className='bg-indigo-900 p-2 rounded-md  hidden lg:visible'>Login</Link>
             )
           }
           <Favourites />

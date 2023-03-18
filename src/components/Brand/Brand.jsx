@@ -8,7 +8,7 @@ const Brand = () => {
           className='text-center text-3xl font-bold'
           to='/'
         >
-            <span className='bg-white text-indigo-900 p-2 shadow-lg shadow-black rounded-md'>M</span>Moviex
+            <span className='bg-white text-indigo-900 p-2 px-4 shadow-lg shadow-black rounded-md'>F</span>Favoritemovis
         </Link>
     </div>
   )

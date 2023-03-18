@@ -22,7 +22,9 @@ const Movie = ({Title, Year, Poster, Type, imdbID}) => {
             </Link>
             <div className='flex group-hover:flex-col gap-2 justify-between items-center'>
               <small>{Year}</small>
-              <AddToFavourites />
+              <AddToFavourites 
+                movieProps={{Title, Type, Poster, imdbID, Year}}
+              />
             </div>
         </div>
     </article>
