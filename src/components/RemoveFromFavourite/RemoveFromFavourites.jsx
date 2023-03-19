@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
-import { FaHeartBroken, FaSpinner, FaTrash } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
+import { FaSpinner, FaTrash } from 'react-icons/fa'
+import { useDispatch } from 'react-redux'
+import { openModal, closeModal } from '../../features/modal/modalSlice'
 import { removeFromFavorites } from '../../features/movie/movieSlice'
 
-const RemoveFromFavourites = ({id}) => {
-
+const RemoveFromFavourites = ({id, Title}) => {
+  let timer = null
   const dispatch = useDispatch()
   const [isRemoving, setIsRemoving] = useState(false)
 
@@ -13,9 +14,18 @@ const RemoveFromFavourites = ({id}) => {
       try {
         await dispatch(removeFromFavorites(id)).unwrap()
         setIsRemoving(false)
+
+        dispatch(openModal(`"${Title}" removed`))
+        timer = setTimeout(()=>{
+          dispatch(closeModal())
+        }, 3000)
+
       } catch (error) {
         setIsRemoving(false)
-        console.log(error)
+        dispatch(openModal(`"${Title}" could not be saved. Try again`))
+        timer = setTimeout(()=>{
+          dispatch(closeModal())
+        }, 3000)
       }
   }
 

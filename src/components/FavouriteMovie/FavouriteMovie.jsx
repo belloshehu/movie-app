@@ -23,6 +23,7 @@ const FavouriteMovie = ({ Title, Year, Poster, Type, imdbID, _id }) => {
                     <small>{Year.slice(0, 10)}</small>
                     <RemoveFromFavourites
                         id={_id}
+                        Title={Title}
                     />
                 </div>
             </div>

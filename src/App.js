@@ -1,7 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import { useEffect, useState } from 'react';
-import Navbar from './components/Navbar/Navbar';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMovies } from './features/movie/movieSlice';
 import {Routes, Route, Navigate} from 'react-router-dom'
@@ -10,14 +8,14 @@ import { MovieDetail } from './pages/MovieDetail/MovieDetail';
 import Login from './pages/Login/Login';
 import Signup from './pages/Signup/Signup';
 import { setUser, clearUser } from './features/auth/authSlice';
-import axios from 'axios';
 import Sidebar from './components/Sidebar/Sidebar';
 import Favorites from './pages/Favorites/Favorites';
+import Modal from './components/Modal/Modal';
 
 
 function App() {
   const { user } = useSelector(store => store.auth)
-  const {isOpen} = useSelector( store => store.modal)
+  const {isOpen, isShowing} = useSelector( store => store.modal)
   const dispatch = useDispatch()
     useEffect(() => {
         dispatch(getMovies())
@@ -54,7 +52,8 @@ function App() {
         <Route path='/login' element={ user? <Navigate to='/' />: <Login /> }/>
         <Route path='/signup' element={ user? <Navigate to='/' />: <Signup /> }/>
       </Routes>
-      {isOpen && <Sidebar />}
+      { isOpen && <Sidebar /> }
+      { isShowing && <Modal /> }
     </div>
   );
 }

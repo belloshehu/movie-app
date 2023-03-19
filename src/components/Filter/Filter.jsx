@@ -27,7 +27,7 @@ const Filter = ({filterKey: key}) => {
             {show? (
                 <ul className='absolute z-10 w-full'>
                     {
-                        filters[key].map( (item, index)=> <FilterItem key={index} text={item} type={key} />)
+                        filters[key].map( (item, index)=> <FilterItem key={index} text={item.slice(0, 4)} type={key} />)
                     }
                 </ul>
             ): null}
