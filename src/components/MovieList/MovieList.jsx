@@ -1,12 +1,11 @@
 import React, {useEffect} from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import Movie from '../Movie/Movie'
-// import {movies} from '../../data/data'
-import { getMovies } from '../../features/movie/movieSlice'
+import FavouriteMovie from '../FavouriteMovie/FavouriteMovie'
 
 
 const MovieList = () => {
-    const {movies, isLoading, filteredMovies} = useSelector(store => store.movie)
+    const { isLoading, filteredMovies, favourites } = useSelector(store => store.movie)
     useEffect(() =>{
 
     }, [filteredMovies])
@@ -21,7 +20,7 @@ const MovieList = () => {
         <div 
             className='grid grid-cols-1 lg:grid-cols-3 gap-3 w-full px-2'>
             {
-                filteredMovies?.map(movie => <Movie key={movie.imdbID} {...movie} />)
+                filteredMovies?.map(movie => <Movie key={movie.imdbID} {...movie} /> )
             }
         </div>
     )

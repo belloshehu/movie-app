@@ -12,15 +12,9 @@ const FilterContainer = () => {
     useEffect(() => {
         console.log(filters.Year)
     }, [movies])
-    if(isLoading){
-        return (
-            <div>
-                <h1>Loading filters</h1>
-            </div>
-        )
-    }
+   
     return (
-        <div className='flex flex-col gap-2 p-2 lg:w-1/4'>
+        <div className='flex flex-col gap-2 p-2 w-full lg:w-1/4'>
             {
                 filters? (
                 <>
@@ -29,7 +23,7 @@ const FilterContainer = () => {
                         >Filter by
                     </h3>
                     <div 
-                        className='grid grid-cols-2 gap-2 text-white'
+                        className='grid grid-cols-2 gap-2 text-white bg-indigo-500 h-fit p-2 lg:sticky lg:top-14'
                         >
                         {
                             Object.keys(filters)?.map((filterKey, index) =>

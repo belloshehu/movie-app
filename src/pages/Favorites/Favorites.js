@@ -34,7 +34,7 @@ const Favorites = () => {
                     </div>   
                 ):(
                     <div className='flex flex-col gap-4 justify-center items-center text-slate-100'>
-                        <h2>You have favorite movies</h2>
+                        <h2>You have no favorite movies</h2>
                         <Link to='/' className='bg-slate-200 p-2 px-4 rounded-md text-indigo-900'>Add now</Link>
                     </div>
                 )

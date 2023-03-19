@@ -3,7 +3,7 @@ import { FaTimes } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { clearUser, userLogout } from '../../features/auth/authSlice'
-import { closeModal } from '../../features/modal/modalSlice'
+import { closeSidebar } from '../../features/modal/modalSlice'
 import Brand from '../Brand/Brand'
 
 const Sidebar = () => {
@@ -17,7 +17,7 @@ const Sidebar = () => {
             localStorage.removeItem('user')
             localStorage.removeItem('token')
             dispatch(clearUser())
-            dispatch(closeModal())
+            dispatch(closeSidebar())
         } catch (error) {
             console.log(error)
         }
@@ -27,7 +27,7 @@ const Sidebar = () => {
         <div className='visible lg:invisible bg-white w-[95%] fixed top-2 left-2 h-screen flex flex-col gap-5 p-3 py-10 z-50'>
             <FaTimes  
                 className='text-3xl absolute -top-2 -right-2 shadow-lg text-white p-1 bg-indigo-900 rounded-full'
-                onClick={()=> dispatch(closeModal())}
+                onClick={()=> dispatch(closeSidebar())}
             />
             <Brand />
             <hr/>
@@ -42,7 +42,7 @@ const Sidebar = () => {
                 </div>
                 ):(
                 <Link to='/login' 
-                    onClick={()=>dispatch(closeModal())} 
+                    onClick={()=>dispatch(closeSidebar())} 
                     className='bg-indigo-900 p-2 text-white rounded-md mt-10 text-center'
                     >Login
                 </Link>

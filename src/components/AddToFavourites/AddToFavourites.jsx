@@ -12,7 +12,7 @@ const AddToFavourites = (props) => {
       setIsAdding(true)
       try {
         await dispatch(addToFavorites(props.movieProps)).unwrap()
-        setIsAdding(true)
+        setIsAdding(false)
       } catch (error) {
         setIsAdding(false)
       }

@@ -36,7 +36,6 @@ export const removeFromFavorites = createAsyncThunk(
             })
             return res.data
         } catch (error) {
-            console.log(error)
             thunkAPI.rejectWithValue('Something went wrong')
         }
     }
@@ -65,7 +64,6 @@ export const getSingleMovie = createAsyncThunk(
             const movie = await axios(`https://www.omdbapi.com/?i=${movieID}&plot=full&apikey=a954465c`)
             return movie.data
         }catch(error){
-            console.log(error)
             thunkAPI.rejectWithValue('Something went wrong')
         }
     }
@@ -82,7 +80,6 @@ export const getMovies = createAsyncThunk(
             thunkAPI.dispatch(setFilters(movies.data.Search))
             return movies.data.Search
         }catch(error){
-            console.log(error)
             thunkAPI.rejectWithValue('Something went wrong')
         }
     }
@@ -111,22 +108,20 @@ const movieSlice = createSlice({
         },
         filterByGenreAndDate: (state, {payload}) => {
             const {Genre:genre, Date:date} = payload
-            console.log(genre, date)
             if(genre === '' && date === '') return
-           else if(genre === ''){
-                state.filteredMovies = state.movies.filter( movie => 
-                    movie.Year === date
-                )
-           }else if(date === ''){
-                state.filteredMovies = state.movies.filter( movie => 
-                    movie.Type === genre
-                )
-           }else{
-                state.filteredMovies = state.movies.filter( movie => 
-                    movie.Type === genre && movie.Year === date
-                )
-           }
-           console.log(state.filteredMovies)
+            else if(genre === ''){
+                    state.filteredMovies = state.movies.filter( movie => 
+                        movie.Year === date
+                    )
+            }else if(date === ''){
+                    state.filteredMovies = state.movies.filter( movie => 
+                        movie.Type === genre
+                    )
+            }else{
+                    state.filteredMovies = state.movies.filter( movie => 
+                        movie.Type === genre && movie.Year === date
+                    )
+            }
         },
     },
     extraReducers: (builder) => {
@@ -183,11 +178,8 @@ const movieSlice = createSlice({
                 if(action.payload.movies){
                     state.isLoading = false
                     state.favourites = action.payload.movies
-                    console.log(action.payload.movies)
-
                 }else{
                     state.errorMessage = action.payload.data
-                    console.log(action.payload.data)
                 }
             })
             .addCase(getAllFavorites.rejected, (state, action) => {
@@ -203,11 +195,8 @@ const movieSlice = createSlice({
                 if(!action.payload.msg){
                     state.isAdding = false
                     state.favourites = state.favourites.filter(movie => movie._id !== action.payload.movie._id)
-                    console.log(action.payload.movie)
-
                 }else{
                     state.errorMessage = action.payload.data
-                    console.log(action.payload.data)
                 }
             })
             .addCase(removeFromFavorites.rejected, (state, action) => {

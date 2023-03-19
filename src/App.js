@@ -16,7 +16,6 @@ import Favorites from './pages/Favorites/Favorites';
 
 
 function App() {
-  const [isLoading, setIsLoading] = useState()
   const { user } = useSelector(store => store.auth)
   const {isOpen} = useSelector( store => store.modal)
   const dispatch = useDispatch()
@@ -37,11 +36,9 @@ function App() {
               return res.json()
             })
             .then((data) =>{
-              console.log('received: ', data)
               dispatch(setUser(data.user))
             })
           .catch((error)=>{
-              console.log(error)
               dispatch(clearUser())
           })
       }

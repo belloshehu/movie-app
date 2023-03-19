@@ -11,7 +11,7 @@ import { getAllFavorites } from '../../features/movie/movieSlice'
 export const Home = () => {
     const [isLoading, setIsLoading] = useState(false)
     const dispatch = useDispatch()
-    const {movies} = useSelector(store => store.movie)
+    const { movies, filteredMovies } = useSelector(store => store.movie)
 
     useEffect(() => {
         dispatch(getAllFavorites())
@@ -27,7 +27,7 @@ export const Home = () => {
         )
     }
     return (
-        <div className='flex flex-col w-full'>
+        <div className='flex flex-col w-full pb-5'>
             <Navbar />
             <HeroSection />
             {
@@ -35,7 +35,7 @@ export const Home = () => {
                     <section className='flex flex-col lg:flex-row gap-2 w-full p-2 lg:p-20 lg:py-10 relative'>
                     <Filter />
                     <div className='w-full'>
-                        <h2 className='text-3xl text-white pl-2 mb-10'>Results ({movies?.length})</h2>
+                        <h2 className='text-3xl text-white pl-2 mb-10'>Results ({filteredMovies?.length})</h2>
                         <MovieList 
                         />
                     </div>
