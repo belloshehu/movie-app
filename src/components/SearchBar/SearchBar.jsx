@@ -9,7 +9,11 @@ const SearchBar = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getMovies(searchKey))
+    const getData = setTimeout(() => {
+      dispatch(getMovies(searchKey))
+    }, 2000)
+
+    return () => clearTimeout(getData)
   }, [searchKey])
 
   return (

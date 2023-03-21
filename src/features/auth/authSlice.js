@@ -6,13 +6,11 @@ import { baseUrl } from "../../utils/baseUrl";
 export const localLogin = createAsyncThunk(
     'auth/localLogin',
     async(values, thunkAPI) =>{
-        console.log('logging in ...: ', values)
         try {
-            const res = await axios.post('http://localhost:5000/auth/login', {
+            const res = await axios.post(`${baseUrl()}/auth/login`, {
                 email: values.email,
                 password: values.password
             })
-            // console.log('from api:', res.data)
             return res.data
         } catch (error) {
             thunkAPI.rejectWithValue('Something went wrong')
@@ -39,7 +37,7 @@ export const localSignup = createAsyncThunk(
     'auth/localSignup',
     async(values, thunkAPI) => {
         try {
-            const res = await axios.post('http://localhost:5000/auth/signup', {
+            const res = await axios.post(`${baseUrl()}/auth/signup`, {
                 email: values.email,
                 password: values.password,
                 username: values.username
