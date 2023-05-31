@@ -5,3 +5,7 @@ Results can be filtered by date and genre.
 
 ### Live project
 Visit [here](https://movie-app-belloshehu.vercel.app/) to see the project in action.
+
+### Backend
+Repository: https://github.com/belloshehu/movie-app-backend
+
