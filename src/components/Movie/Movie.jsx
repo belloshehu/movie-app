@@ -11,7 +11,7 @@ const Movie = ({Title, Year, Poster, Type, imdbID}) => {
         <img 
             src={Poster} 
             alt={Title} 
-            className='w-full h-full aspect-square object-cover '
+            className='w-full h-full aspect-square object-cover'
         />
         <div 
             className='movie-info movie-info-hover'>

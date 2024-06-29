@@ -64,7 +64,7 @@ const Navbar = () => {
                   }
               </div>
             ):(
-              <Link to='/login' className='bg-indigo-900 p-2 rounded-md  hidden lg:visible'>Login</Link>
+              <Link to='/login' className='bg-indigo-900 p-2 rounded-md invisible lg:visible'>Login</Link>
             )
           }
           <Favourites />

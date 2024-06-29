@@ -1,34 +1,44 @@
 import React, {useState} from 'react'
 import {FaHeart, FaSpinner} from 'react-icons/fa'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { openModal, closeModal } from '../../features/modal/modalSlice'
 import { addToFavorites } from '../../features/movie/movieSlice'
 
 const AddToFavourites = (props) => {
 
   const dispatch = useDispatch()
+
   const [isAdding, setIsAdding] = useState(false)
+  const {user} = useSelector( store => store.auth)
+
+  const navigate = useNavigate()
   let timer = null
 
   const handleClick = async () =>{
       setIsAdding(true)
-
-      try {
-        const res  = await dispatch(addToFavorites(props.movieProps)).unwrap()
-        setIsAdding(false)
-        
-        dispatch(openModal(`"${props.movieProps.Title}" added`))
-        timer = setTimeout(()=>{
-          dispatch(closeModal())
-        }, 3000)
-
-      } catch (error) {
-        setIsAdding(false)
-
-        dispatch(openModal(`"${props.movieProps.Title}" could not be added`))
-        timer = setTimeout(()=>{
-          dispatch(closeModal())
-        }, 3000)
+      const a = 1
+      if(user === null){
+        navigate('/login', {replace: true})
+      }
+      else{
+        try {
+          const res  = await dispatch(addToFavorites(props.movieProps)).unwrap()
+          setIsAdding(false)
+          
+          dispatch(openModal(`"${props.movieProps.Title}" added`))
+          timer = setTimeout(()=>{
+            dispatch(closeModal())
+          }, 3000)
+  
+        } catch (error) {
+          setIsAdding(false)
+  
+          dispatch(openModal(`"${props.movieProps.Title}" could not be added`))
+          timer = setTimeout(()=>{
+            dispatch(closeModal())
+          }, 3000)
+        }
       }
   }
 

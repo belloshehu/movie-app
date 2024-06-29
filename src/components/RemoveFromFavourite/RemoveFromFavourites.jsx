@@ -1,16 +1,25 @@
 import React, {useState} from 'react'
 import { FaSpinner, FaTrash } from 'react-icons/fa'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { openModal, closeModal } from '../../features/modal/modalSlice'
 import { removeFromFavorites } from '../../features/movie/movieSlice'
 
 const RemoveFromFavourites = ({id, Title}) => {
   let timer = null
   const dispatch = useDispatch()
+  const {user} = useSelector( store => store.auth)
   const [isRemoving, setIsRemoving] = useState(false)
 
+  const navigate = useNavigate() 
+  
   const handleClick = async () =>{
     setIsRemoving(true)
+
+    if(user === null){
+      navigate('/login', {replace: true})
+    }
+    else{
       try {
         await dispatch(removeFromFavorites(id)).unwrap()
         setIsRemoving(false)
@@ -27,6 +36,7 @@ const RemoveFromFavourites = ({id, Title}) => {
           dispatch(closeModal())
         }, 3000)
       }
+    }
   }
 
   return (
